@@ -1,0 +1,36 @@
+dataset_concat= FOREACH dataset GENERATE CONCAT ((chararray)movieID,tag);
+DUMP dataset_concat;
+
+tokenize_data= FOREACH dataset GENERATE TOKENIZE (tag);
+DUMP tokenize_data
+
+
+group_data= GROUP dataset by userId;
+SUM_data= FOREACH group_data GENERATE SUM(dataset.userId)
+DUMP SUM_data;
+
+group_data= GROUP dataset all;
+min_data= FOREACH group_data GENERATE MIN(dataset.userId);
+DUMP min_data;
+
+group_data= GROUP dataset all;
+max_data= FOREACH group_data GENERATE MAX(dataset.userId);
+DUMP max_data;
+
+result= LIMIT dataset 5;
+DUMP result;
+
+group_data= GROUP dataset all;
+STORE group_data INTO '/home/acadgild/LocalFS/pigop1'using PigStorage(',');
+
+A= LOAD 'pigip' USING PigStorage(',');
+dataset =LOAD 'pigip.txt' USING PigStorage(':');
+DUMP dataset
+distinct_data= DISTINCT dataset
+
+data_flt= FOREACH dataset GENERATE FLATTEN($2);
+DUMP data_flt;
+
+
+
+
