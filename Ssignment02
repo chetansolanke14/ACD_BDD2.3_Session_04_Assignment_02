@@ -1,36 +1,54 @@
+Below is the solution for each attached screen shot explained with the comment used:
+
+Assignment_02_01: Dataset.txt file is created and the data is validated using "cat Dataset.txt"
+
+Assignment_02_02: data is dumped in pig using below command 
+dataset = LOAD 'dataset.txt' USING PigStorage(',') as (int:userId,int:movieID,chararray:tag,int:timestamp);
+DUMP dataset;"
+
+
+Assignment_02_03: CONCAT() is used to combine
 dataset_concat= FOREACH dataset GENERATE CONCAT ((chararray)movieID,tag);
-DUMP dataset_concat;
+DUMP dataset_concat;"
 
+Assignment_02_04: Below comment are used to tokenize
 tokenize_data= FOREACH dataset GENERATE TOKENIZE (tag);
-DUMP tokenize_data
+DUMP tokenize_data"
 
-
+Assignment_02_05: SUM()
 group_data= GROUP dataset by userId;
 SUM_data= FOREACH group_data GENERATE SUM(dataset.userId)
-DUMP SUM_data;
+DUMP SUM_data;"
 
+Assignment_02_06: MIN() is used below command is used in this screen shot to get the output
 group_data= GROUP dataset all;
 min_data= FOREACH group_data GENERATE MIN(dataset.userId);
-DUMP min_data;
+DUMP min_data;"
 
+Assignment_02_07: MAX() is used below command is used in this screen shot to get the output
 group_data= GROUP dataset all;
 max_data= FOREACH group_data GENERATE MAX(dataset.userId);
-DUMP max_data;
+DUMP max_data;"
 
+
+Assignment_02_08: LIMIT() is used below command is used in this screen shot to get the output
 result= LIMIT dataset 5;
-DUMP result;
+DUMP result;"
 
+Assignment_02_09: STORE() is used below command is used in this screen shot to get the output
 group_data= GROUP dataset all;
-STORE group_data INTO '/home/acadgild/LocalFS/pigop1'using PigStorage(',');
+STORE group_data INTO '/home/acadgild/LocalFS/pigop1'using PigStorage(',');"
 
+Assignment_02_11:  Screen shot shows the output file store in the pigop1 file
+
+Assignment_02_12:DISTINCT() is used below command is used in this screen shot to get the output
 A= LOAD 'pigip' USING PigStorage(',');
 dataset =LOAD 'pigip.txt' USING PigStorage(':');
 DUMP dataset
-distinct_data= DISTINCT dataset
+distinct_data= DISTINCT dataset"
 
+Assignment_02_13: Shows the output of distinct output by removing duplicates field
+
+Assignment_02_14:FLATTEN() is used below command is used in this screen shot to get the output
 data_flt= FOREACH dataset GENERATE FLATTEN($2);
-DUMP data_flt;
-
-
-
-
+DUMP data_flt;"
